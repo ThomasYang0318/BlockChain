@@ -21,7 +21,7 @@ class BlockChain:
         transaction_dict = {
             'sender': str(transaction.sender),
             'receiver': str(transaction.receiver),
-            'amounts': transaction.amounts,
+            'amount': transaction.amount,
             'fee': transaction.fee,
             'message': transaction.message
         }
@@ -76,6 +76,7 @@ class BlockChain:
         time_consumed = round(time.process_time() - start, 5)
         print(f"Hash found: {new_block.hash} @ difficulty {self.difficulty}, time cost: {time_consumed}s")
         self.chain.append(new_block)
+        print(f"Block mined by {miner} added to the blockchain.")
 
     def adjust_difficulty(self):
         if len(self.chain) % self.adjust_difficulty_blocks != 1:
@@ -105,10 +106,10 @@ class BlockChain:
                 if miner:
                     balance += transaction.fee
                 if transaction.sender == account:
-                    balance -= transaction.amounts
+                    balance -= transaction.amount
                     balance -= transaction.fee
                 elif transaction.receiver == account:
-                    balance += transaction.amounts
+                    balance += transaction.amount
         return balance
 
     def verify_blockchain(self):
